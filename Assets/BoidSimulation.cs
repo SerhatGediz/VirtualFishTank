@@ -7,6 +7,7 @@ public class BoidSimulationControl : MonoBehaviour
     public GameObject boidPrefab = null;
     public int numBoidsToSpawn = 10;
     public List<Boid> boids = null;
+   
     public enum ControlMode
     {
         Seek,
@@ -44,7 +45,11 @@ public class BoidSimulationControl : MonoBehaviour
         {
             GameObject newBoid = Instantiate(boidPrefab, new Vector3(Random.Range(-0.7f, 0.7f), Random.Range(0, 0.7f), Random.Range(-0.4f, 0.4f)), Random.rotation);
             boids.Add(newBoid.GetComponent<Boid>());
+            newBoid.GetComponent<Renderer>().material.SetColor("_BaseColor", Random.ColorHSV(0, 1, 0.5f, 1, 0.5f, 1));
         }
 
+    }
+    private void Awake()
+    {
     }
 }

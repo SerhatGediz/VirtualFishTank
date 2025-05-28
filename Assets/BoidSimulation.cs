@@ -7,7 +7,7 @@ public class BoidSimulationControl : MonoBehaviour
     public GameObject boidPrefab = null;
     public int numBoidsToSpawn = 10;
     public List<Boid> boids = null;
-   
+    private GameObject targetObject;
     public enum ControlMode
     {
         Seek,
@@ -39,6 +39,9 @@ public class BoidSimulationControl : MonoBehaviour
     }
     private void Start()
     {
+        targetObject = GameObject.Find("target");
+
+
         boids = new List<Boid>();
 
         for (int i = 0; i < numBoidsToSpawn; i++)
@@ -49,7 +52,29 @@ public class BoidSimulationControl : MonoBehaviour
         }
 
     }
-    private void Awake()
+    
+
+    private void FixedUpdate()
     {
+        Ray ray = Camera.main.ScreenPointToRay(transform.position);
+        RaycastHit hitInfo;
+        bool didHit = Physics.Raycast(ray, out hitInfo, 100);
+
+        if ((didHit))
+        {
+            targetObject.transform.position = hitInfo.point;
+        }
     }
+    public Vector3 Seek(Vector3 target, float acceleration)
+    {
+        Vector3 toTarget = target - transform.position;
+
+        Vector3 toTargetNormalized = toTarget.normalized;
+
+        Vector3 accel = toTargetNormalized * acceleration;
+
+        return accel;
+    }
+    
+
 }

@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using static BoidSimulationControl;
 
 public class Boid : MonoBehaviour
 {
-   private GameObject targetObject;
-   private  Rigidbody rigidBody;
+    private GameObject targetObject;
+    private Rigidbody rigidBody;
 
     public float speed = 2;
     public float accelMax = 3;
@@ -27,27 +29,24 @@ public class Boid : MonoBehaviour
         transform.forward = rigidBody.linearVelocity;
     }
 
+    private void Update()
+    {
+        Debug.DrawRay(transform.position, rigidBody.linearVelocity, Color.red);
+    }
 
-
-
-
-
-    //private void Awake()
-    //{
-    //    rigidBody = GetComponent<Rigidbody>();
-    //    rigidBody.linearVelocity = Random.insideUnitSphere;
-    //}
-
-    //public void Update()
-    //{
-    //    AlignToVelocity();
-    //}
-
-    //public void AlignToVelocity()
-    //{
-    //    transform.forward = Vector3.RotateTowards(transform.forward, rigidBody.linearVelocity.normalized, Mathf.Deg2Rad * 1800 * Time.deltaTime, 100);
-    //}
+    
+   
 }
+
+
+
+   
+
+
+
+
+
+
 
 
 

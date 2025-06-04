@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -8,6 +8,10 @@ public class BoidSimulationControl : MonoBehaviour
     public int numBoidsToSpawn = 10;
     public List<Boid> boids = null;
     private GameObject targetObject;
+    public GameObject foodPrefab;
+    private List<GameObject> foodList = new List<GameObject>();
+
+
     public enum ControlMode
     {
         Seek,
@@ -52,7 +56,8 @@ public class BoidSimulationControl : MonoBehaviour
         }
 
     }
-    
+
+
 
     private void FixedUpdate()
     {
@@ -64,17 +69,95 @@ public class BoidSimulationControl : MonoBehaviour
         {
             targetObject.transform.position = hitInfo.point;
         }
+
+        switch(controlMode)
+        {
+            case ControlMode.Seek:
+
+            for (int i = 0; i < boids.Count; i++)
+            {
+               
+                Vector3 accel = boids[i].Seek(targetObject.transform.position, boids[i].accelMax);
+
+               
+                if (Input.GetMouseButton(0))
+                {
+                    boids[i].rigidBody.linearVelocity += accel * Time.fixedDeltaTime;
+                    Debug.DrawRay(boids[i].transform.position, accel, Color.green);
+                }
+                
+                else if (Input.GetMouseButton(1))
+                {
+                    boids[i].rigidBody.linearVelocity -= accel * Time.fixedDeltaTime;
+                    Debug.DrawRay(boids[i].transform.position, -accel, Color.red);
+
+                    
+                }
+               
+
+
+
+            }
+                break;
+
+
+
+            case ControlMode.Pursue:
+        
+            for (int i = 0; i < boids.Count; i++)
+            {
+              
+                Vector3 accel = boids[i].Pursue(targetObject.transform.position, boids[i].accelMax);
+
+                if (Input.GetMouseButton(0))
+                {
+                   
+                    boids[i].rigidBody.linearVelocity += accel * Time.fixedDeltaTime;
+                    Debug.DrawRay(boids[i].transform.position, accel, Color.blue);
+                }
+            }
+                    break;
+        
+
+         case ControlMode.Food:
+
+        
+            for (int i = 0; i < boids.Count; i++)
+            {
+                Vector3 accel = boids[i].SeekNearestFood(10f, boids[i].accelMax); 
+                boids[i].rigidBody.linearVelocity += accel * Time.fixedDeltaTime;
+                Debug.DrawRay(boids[i].transform.position, accel, Color.magenta);
+            }
+                break;
+        }
+       if (controlMode == ControlMode.Food && Input.GetMouseButtonDown(0))
+           {
+             SpawnFood();
+           }
+
     }
-    public Vector3 Seek(Vector3 target, float acceleration)
+
+
+
+
+
+ 
+
+    public void SpawnFood()
     {
-        Vector3 toTarget = target - transform.position;
 
-        Vector3 toTargetNormalized = toTarget.normalized;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-        Vector3 accel = toTargetNormalized * acceleration;
-
-        return accel;
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            Vector3 spawnPos = hit.point;
+            Instantiate(foodPrefab, spawnPos, Quaternion.identity);
+        }
     }
-    
 
 }
+
+
+
+

@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidPrefab: {fileID: 676342791721572840, guid: f897bb6f1e1ca6e488704ea6543a2907, type: 3}
-  numBoidsToSpawn: 20
+  numBoidsToSpawn: 100
   boids: []
   foodPrefab: {fileID: 2851859587008556783, guid: 5540831f9bd2a0444bc7c46becba06b7, type: 3}
   rockPrefab: {fileID: 8286405276652713342, guid: 08240c42a33a2684c88c183fe0418df6, type: 3}
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090183350}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 444a6d41bce2977479742fd724f5387d, type: 3}
   m_Name: 

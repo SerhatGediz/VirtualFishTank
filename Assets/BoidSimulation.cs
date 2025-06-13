@@ -210,19 +210,19 @@ public class BoidSimulationControl : MonoBehaviour
 
     public void ResetSimulation()
     {
-        // Tüm balıkları sil
+        
         foreach (var boid in boids)
         {
             Destroy(boid.gameObject);
         }
 
-        // Tüm yiyecekleri sil
+        
         foreach (var food in GameObject.FindGameObjectsWithTag("Food"))
         {
             Destroy(food);
         }
 
-        // Tüm engelleri sil
+       
         foreach (var obstacle in GameObject.FindGameObjectsWithTag("Obstacle"))
         {
             Destroy(obstacle);
@@ -230,7 +230,7 @@ public class BoidSimulationControl : MonoBehaviour
 
         boids.Clear();
 
-        // Balıkları yeniden oluştur
+       
         for (int i = 0; i < numBoidsToSpawn; i++)
         {
             GameObject newBoid = Instantiate(boidPrefab, new Vector3(Random.Range(-0.7f, 0.7f), Random.Range(0, 0.7f), Random.Range(-0.4f, 0.4f)), Random.rotation);

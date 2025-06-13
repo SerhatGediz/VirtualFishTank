@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using static BoidSimulationControl;
@@ -112,6 +112,37 @@ public class Boid : MonoBehaviour
         return Vector3.zero;
     }
 
+    public Vector3 AvoidObstacles(float avoidStrength, float whiskerLength)
+    {
+        Vector3 avoidance = Vector3.zero;
+
+        Vector3[] directions = new Vector3[]
+        {
+        transform.forward,                             // Orta whisker
+        Quaternion.AngleAxis(30, transform.up) * transform.forward, // Sağ whisker
+        Quaternion.AngleAxis(-30, transform.up) * transform.forward // Sol whisker
+        };
+
+        foreach (Vector3 dir in directions)
+        {
+            Ray ray = new Ray(transform.position, dir);
+            if (Physics.Raycast(ray, out RaycastHit hit, whiskerLength))
+            {
+                if (hit.collider.CompareTag("Obstacle"))
+                {
+                    Vector3 awayFromObstacle = (transform.position - hit.point).normalized;
+                    avoidance += awayFromObstacle * avoidStrength;
+                    Debug.DrawRay(transform.position, dir * whiskerLength, Color.yellow);
+                }
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, dir * whiskerLength, Color.green);
+            }
+        }
+
+        return avoidance;
+    }
 
 
 }

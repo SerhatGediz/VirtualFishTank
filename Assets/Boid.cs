@@ -118,9 +118,9 @@ public class Boid : MonoBehaviour
 
         Vector3[] directions = new Vector3[]
         {
-        transform.forward,                             // Orta whisker
-        Quaternion.AngleAxis(30, transform.up) * transform.forward, // Sağ whisker
-        Quaternion.AngleAxis(-30, transform.up) * transform.forward // Sol whisker
+        transform.forward,                             
+        Quaternion.AngleAxis(30, transform.up) * transform.forward, 
+        Quaternion.AngleAxis(-30, transform.up) * transform.forward 
         };
 
         foreach (Vector3 dir in directions)
